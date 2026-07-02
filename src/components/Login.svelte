@@ -4,17 +4,22 @@
   let username = $state('');
   let password = $state('');
   let error = $state('');
+  let showLogin = $state(true);
 
   onMount(() => {
     if (sessionStorage.getItem('authenticated') === 'true') {
-      window.location.replace('/1');
+      showLogin = false;
+    } else {
+      document.body.style.overflow = 'hidden';
     }
   });
 
   function login() {
     if (username === 'admin' && password === 'laochen666') {
       sessionStorage.setItem('authenticated', 'true');
-      window.location.replace('/1');
+      showLogin = false;
+      document.body.style.overflow = '';
+      error = '';
     } else {
       error = '账号或密码错误';
     }
@@ -27,46 +32,48 @@
   }
 </script>
 
-<div class="login-page">
-  <div class="login-card">
-    <div class="login-avatar">🐱</div>
-    <h1 class="login-title">老陈の小站</h1>
-    <p class="login-subtitle">请输入密码以继续访问</p>
-    <div class="login-form">
-      <input
-        type="text"
-        class="login-input"
-        placeholder="账号"
-        bind:value={username}
-        onkeydown={handleKeydown}
-      />
-      <input
-        type="password"
-        class="login-input"
-        placeholder="密码"
-        bind:value={password}
-        onkeydown={handleKeydown}
-      />
-      <button class="login-btn" onclick={login}>登 录</button>
-      {#if error}
-        <p class="login-error">{error}</p>
-      {/if}
+{#if showLogin}
+  <div class="login-overlay">
+    <div class="login-card">
+      <div class="login-avatar">🐱</div>
+      <h1 class="login-title">老陈の小站</h1>
+      <p class="login-subtitle">请输入密码以继续访问</p>
+      <div class="login-form">
+        <input
+          type="text"
+          class="login-input"
+          placeholder="账号"
+          bind:value={username}
+          onkeydown={handleKeydown}
+        />
+        <input
+          type="password"
+          class="login-input"
+          placeholder="密码"
+          bind:value={password}
+          onkeydown={handleKeydown}
+        />
+        <button class="login-btn" onclick={login}>登 录</button>
+        {#if error}
+          <p class="login-error">{error}</p>
+        {/if}
+      </div>
     </div>
   </div>
-</div>
+{/if}
 
 <style>
-  .login-page {
+  .login-overlay {
     position: fixed;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background: oklch(0.95 0.01 var(--hue, 345));
-    z-index: 9999;
+    z-index: 99999;
   }
 
-  :global(.dark) .login-page {
+  :global(.dark) .login-overlay {
     background: oklch(0.16 0.014 var(--hue, 345));
   }
 

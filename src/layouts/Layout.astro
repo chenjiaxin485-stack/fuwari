@@ -111,13 +111,13 @@ const bannerOffset =
 
 		<!-- Set the theme before the page is rendered to avoid a flash -->
 		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue}}>
-			// Auth gate: redirect to login page if not authenticated
-			const isLoginPage = window.location.pathname === "/";
-			if (!isLoginPage && sessionStorage.getItem("authenticated") !== "true") {
+			// Auth gate: redirect non-home pages if not authenticated
+			if (window.location.pathname !== "/" && sessionStorage.getItem("authenticated") !== "true") {
 				window.location.replace("/");
 			}
 
 			// Load the theme from local storage
+
 			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
 			switch (theme) {
 				case LIGHT_MODE:
