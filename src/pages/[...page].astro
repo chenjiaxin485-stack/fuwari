@@ -15,13 +15,21 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 const { page } = Astro.props;
 
+const isHomePage = page.currentPage === 1;
 const len = page.data.length;
 ---
 
 <MainGridLayout>
-    <Login client:load />
-    <div id="main-content" style="display:none">
-        <PostPage page={page}></PostPage>
-        <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
-    </div>
+    {isHomePage && <Login client:load />}
+    {isHomePage ? (
+        <div id="main-content" style="display:none">
+            <PostPage page={page}></PostPage>
+            <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+        </div>
+    ) : (
+        <>
+            <PostPage page={page}></PostPage>
+            <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+        </>
+    )}
 </MainGridLayout>
