@@ -67,8 +67,9 @@
     position: fixed;
     inset: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding-top: 18vh;
     background: oklch(0.95 0.01 var(--hue, 345));
     z-index: 99999;
   }
