@@ -4,21 +4,17 @@
   let username = $state('');
   let password = $state('');
   let error = $state('');
-  let showLogin = $state(true);
 
   onMount(() => {
     if (sessionStorage.getItem('authenticated') === 'true') {
-      showLogin = false;
-      document.getElementById('main-content')?.style.setProperty('display', 'block');
+      window.location.replace('/1');
     }
   });
 
   function login() {
     if (username === 'admin' && password === 'laochen666') {
       sessionStorage.setItem('authenticated', 'true');
-      showLogin = false;
-      document.getElementById('main-content')?.style.setProperty('display', 'block');
-      error = '';
+      window.location.replace('/1');
     } else {
       error = '账号或密码错误';
     }
@@ -31,38 +27,36 @@
   }
 </script>
 
-{#if showLogin}
-  <div class="login-overlay">
-    <div class="login-card">
-      <div class="login-avatar">🐱</div>
-      <h1 class="login-title">老陈の小站</h1>
-      <p class="login-subtitle">请输入密码以继续访问</p>
-      <div class="login-form">
-        <input
-          type="text"
-          class="login-input"
-          placeholder="账号"
-          bind:value={username}
-          onkeydown={handleKeydown}
-        />
-        <input
-          type="password"
-          class="login-input"
-          placeholder="密码"
-          bind:value={password}
-          onkeydown={handleKeydown}
-        />
-        <button class="login-btn" onclick={login}>登 录</button>
-        {#if error}
-          <p class="login-error">{error}</p>
-        {/if}
-      </div>
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-avatar">🐱</div>
+    <h1 class="login-title">老陈の小站</h1>
+    <p class="login-subtitle">请输入密码以继续访问</p>
+    <div class="login-form">
+      <input
+        type="text"
+        class="login-input"
+        placeholder="账号"
+        bind:value={username}
+        onkeydown={handleKeydown}
+      />
+      <input
+        type="password"
+        class="login-input"
+        placeholder="密码"
+        bind:value={password}
+        onkeydown={handleKeydown}
+      />
+      <button class="login-btn" onclick={login}>登 录</button>
+      {#if error}
+        <p class="login-error">{error}</p>
+      {/if}
     </div>
   </div>
-{/if}
+</div>
 
 <style>
-  .login-overlay {
+  .login-page {
     position: fixed;
     inset: 0;
     display: flex;
@@ -72,7 +66,7 @@
     z-index: 9999;
   }
 
-  :global(.dark) .login-overlay {
+  :global(.dark) .login-page {
     background: oklch(0.16 0.014 var(--hue, 345));
   }
 
