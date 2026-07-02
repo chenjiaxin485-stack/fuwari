@@ -15,7 +15,7 @@
   });
 
   function login() {
-    if (username === 'admin' && password === 'laochen666') {
+    if (username === 'admin' && password === 'admin') {
       sessionStorage.setItem('authenticated', 'true');
       showLogin = false;
       document.body.style.overflow = '';
